@@ -1,6 +1,7 @@
 #include "main_window.h"
 
-MainWindow::MainWindow(QMainWindow * parent) : QMainWindow(parent)
+MainWindow::MainWindow(QMainWindow * parent) : QMainWindow(parent), _scene(nullptr),
+    _view(nullptr)
 {
     initUI();
 }

@@ -2,7 +2,6 @@
 
 #include <QMainWindow>
 #include <QGraphicsView>
-#include <QGraphicsScene>
 
 class MainWindow : public QMainWindow
 {
