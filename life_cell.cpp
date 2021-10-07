@@ -20,7 +20,7 @@ void LifeCell::disable()
     _state = CellState::Dead;
 }
 
-CellState LifeCell::state()
+CellState LifeCell::state() const
 {
     return _state;
 }

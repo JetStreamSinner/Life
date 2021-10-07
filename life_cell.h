@@ -13,7 +13,7 @@ public:
     explicit LifeCell(CellState initState);
     void enable();
     void disable();
-    CellState state();
+    CellState state() const;
 private:
     CellState _state;
 };
