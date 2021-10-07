@@ -15,6 +15,9 @@ public:
     PlayingField  currentState() const;
 
 private:
+
+    static bool validateState(const PlayingField &field) ;
+
     int _rowCount;
     int _columnCount;
 
