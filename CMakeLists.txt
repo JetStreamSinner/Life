@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt6Widgets CONFIG REQUIRED)
 
-set(src main.cpp main_window.cpp life_cell.cpp)
+set(src main.cpp main_window.cpp game_state.cpp life_cell.cpp)
 
 add_executable(LifeGame ${src})
 target_link_libraries(${PROJECT_NAME} Qt6::Widgets)

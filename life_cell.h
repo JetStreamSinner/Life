@@ -1,26 +1,19 @@
 #pragma once
 
-#include <QGraphicsRectItem>
-
 enum class CellState
 {
     Dead,
     Alive
 };
 
-class LifeCell : public QGraphicsRectItem
+class LifeCell
 {
 public:
-    explicit LifeCell(const QRectF &rect);
+    LifeCell();
+    explicit LifeCell(CellState initState);
     void enable();
     void disable();
-
-    void setAliveColor(const QColor &color);
-
-    CellState state() const;
-
-    void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget) override;
+    CellState state();
 private:
     CellState _state;
-    QColor _aliveColor;
 };

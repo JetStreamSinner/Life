@@ -1,9 +1,11 @@
-#include <QPainter>
-#include <QStyleOptionGraphicsItem>
 #include "life_cell.h"
 
-LifeCell::LifeCell(const QRectF& rect) : QGraphicsRectItem(rect, nullptr),
-    _state(CellState::Dead), _aliveColor(0, 0, 0, 0)
+LifeCell::LifeCell() : _state(CellState::Dead)
+{
+
+}
+
+LifeCell::LifeCell(CellState initState) : _state(initState)
 {
 
 }
@@ -18,18 +20,7 @@ void LifeCell::disable()
     _state = CellState::Dead;
 }
 
-void LifeCell::setAliveColor(const QColor& color)
-{
-    _aliveColor = color;
-}
-
-CellState LifeCell::state() const
+CellState LifeCell::state()
 {
     return _state;
-}
-void LifeCell::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
-{
-    QGraphicsRectItem::paint(painter, option, widget);
-    if (_state == CellState::Alive)
-        painter->fillRect(option->rect, _aliveColor);
 }
