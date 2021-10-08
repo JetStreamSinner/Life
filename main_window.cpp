@@ -1,16 +1,20 @@
 #include "main_window.h"
 
-MainWindow::MainWindow(QMainWindow * parent) : QMainWindow(parent), _scene(nullptr),
+#include <QGraphicsView>
+#include "life_game.h"
+
+MainWindow::MainWindow(QMainWindow * parent) : QMainWindow(parent), _game(nullptr),
     _view(nullptr)
 {
+    resize(800, 600);
     initUI();
 }
 
 void MainWindow::initUI()
 {
     try {
-        _scene = new QGraphicsScene(this);
-        _view = new QGraphicsView(_scene);
+        _game = new LifeGame(this);
+        _view = new QGraphicsView(_game);
     } catch (std::bad_alloc& ) {
         std::terminate();
     }

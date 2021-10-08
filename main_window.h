@@ -1,7 +1,9 @@
 #pragma once
 
 #include <QMainWindow>
-#include <QGraphicsView>
+
+class LifeGame;
+class QGraphicsView;
 
 class MainWindow : public QMainWindow
 {
@@ -12,5 +14,5 @@ private:
     void initUI();
 
     QGraphicsView * _view;
-    QGraphicsScene * _scene;
+    LifeGame * _game;
 };
