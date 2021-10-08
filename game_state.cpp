@@ -15,8 +15,7 @@ bool GameState::validateField(const PlayingField& field) const
 {
     bool fieldHasRows = !field.empty();
     if (fieldHasRows) {
-        const auto firstRowIndex = 0;
-        bool fieldHasColumns = !field.at(firstRowIndex).empty();
+        bool fieldHasColumns = !field.at(0).empty();
         if (!fieldHasColumns)
             return false;
     } else {
@@ -36,9 +35,6 @@ int GameState::aliveNeighborsCount(int targetRowIndex, int targetColumnIndex) co
 {
     const auto baseRowIndex = targetRowIndex - 1;
     const auto baseColumnIndex = targetColumnIndex - 1;
-
-    int rowIndex = baseRowIndex;
-    int columnIndex = baseColumnIndex;
 
     auto leftBound = 0;
     auto rightBound = 2;
@@ -98,8 +94,7 @@ void GameState::setGameState(const PlayingField& updatedField)
         throw std::logic_error("Wrong field size.");
 
     _rowCount = updatedField.size();
-    const auto firstRowIndex = 0;
-    _columnCount = updatedField.at(firstRowIndex).size();
+    _columnCount = updatedField.at(0).size();
 
     _cellsStates = updatedField;
 }
