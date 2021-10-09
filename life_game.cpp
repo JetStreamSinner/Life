@@ -6,6 +6,16 @@ LifeGame::LifeGame(QObject* parent) : QGraphicsScene(parent)
     initGame();
 }
 
+void LifeGame::start()
+{
+    
+}
+
+void LifeGame::stop()
+{
+
+}
+
 void LifeGame::initGame()
 {
     _gameState = std::make_unique<GameState>(defaultRowsCount, defaultColumnsCount);

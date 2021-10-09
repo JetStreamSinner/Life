@@ -10,6 +10,8 @@ class LifeGame : public QGraphicsScene
     Q_OBJECT
 public:
     explicit LifeGame(QObject * parent=nullptr);
+    void start();
+    void stop();
 
 private:
     // TODO Move this in configuration/options

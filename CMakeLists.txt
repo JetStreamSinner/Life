@@ -11,7 +11,7 @@ set(src main.cpp
         game_state.cpp
         life_cell.cpp
         life_game.cpp
-        life_game_graphics_rect.cpp)
+        life_game_graphics_rect.cpp inputs_widget.cpp inputs_widget.h)
 
 add_executable(LifeGame ${src})
 target_link_libraries(${PROJECT_NAME} Qt6::Widgets)

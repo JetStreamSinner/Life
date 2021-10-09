@@ -4,6 +4,7 @@
 
 class LifeGame;
 class QGraphicsView;
+class InputsWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -13,6 +14,7 @@ public:
 private:
     void initUI();
 
+    InputsWidget * _inputsWidget;
     QGraphicsView * _view;
     LifeGame * _game;
 };
