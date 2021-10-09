@@ -37,6 +37,7 @@ I`m implement this by Qt framework.
 At the beginning its initialized with field width and height equal 10 by default, but user can set it by input fields in right dock panel
 For tagging cell, user should click on it. For start/stop game, user should click on buttons start/stop in right dock panel.
 
+![Game representation](https://s9.gifyu.com/images/game5e3845f1e83a58d6.md.gif)
 
 ## UML Datagram
 
@@ -44,4 +45,4 @@ For tagging cell, user should click on it. For start/stop game, user should clic
 
 Below you can see project class diagram
 
-![Datagram ](https://i.ibb.co/KFS1P3G/LifeGame.png)
+![Datagram](https://i.ibb.co/KFS1P3G/LifeGame.png)
