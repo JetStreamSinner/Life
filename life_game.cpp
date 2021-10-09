@@ -1,56 +1,104 @@
 #include "life_game.h"
 #include "life_game_graphics_rect.h"
 
-LifeGame::LifeGame(QObject* parent) : QGraphicsScene(parent)
+#include <QTimer>
+
+LifeGame::LifeGame(const LifeGameOptions &options, QObject* parent) : QGraphicsScene(parent), _gameTimer(nullptr), _updater(std::make_unique<LifeGameStateUpdater>())
 {
-    initGame();
+    initGame(options);
+    initTimer();
 }
 
 void LifeGame::start()
 {
+    if (_gameTimer)
+        _gameTimer->start();
+    else
+        // TODO Handler error
+        std::terminate();
     
 }
 
 void LifeGame::stop()
 {
-
+    if (_gameTimer)
+        _gameTimer->stop();
+    else
+        // TODO Handle error
+        std::terminate();
 }
 
-void LifeGame::initGame()
+void LifeGame::updateState()
 {
-    _gameState = std::make_unique<GameState>(defaultRowsCount, defaultColumnsCount);
-    _graphicsCells = makeGraphicsCellsFromState(*_gameState);
-    for (auto &cellItem : _graphicsCells)
-        addItem(cellItem);
-}
-
-std::vector<QGraphicsRectItem*> LifeGame::makeGraphicsCellsFromState(const GameState &state) const
-{
-    const auto playingField = state.currentState();
-    const auto rowCount = playingField.size();
-    const auto columnCount = playingField.at(0).size();
-
-    const auto cellsCount = rowCount * columnCount;
-    std::vector<QGraphicsRectItem*> graphicsItems;
-    graphicsItems.reserve(cellsCount);
-
-    // TODO Calculate it from size
-    static const auto defaultWidth = 50;
-    static const auto defaultHeight = 50;
-
-    for (auto rowIndex = 0; rowIndex < rowCount; ++rowIndex) {
-        for (auto columnIndex = 0; columnIndex < columnCount; ++columnIndex) {
-
-            auto x = rowIndex * defaultWidth;
-            auto y = columnIndex * defaultHeight;
-            auto width = defaultWidth;
-            auto height = defaultHeight;
-
-            const QRectF cellRect(x, y, width, height);
-            auto * newCell = new LifeGameGraphicsRect(cellRect, CellState::Dead);
-            graphicsItems.push_back(newCell);
+    if (_updater) {
+        auto diffs = _updater->updateState(_playingField);
+        for (auto &diff : diffs) {
+            const auto targetState = _playingField.at(diff.rowIndex).at(diff.columnIndex);
+            if (diff.updated.state() == StateHolder::Enable)
+                targetState->enable();
+            else
+                targetState->disable();
         }
+        update();
+    } else {
+        std::terminate();
     }
+}
 
-    return graphicsItems;
+bool LifeGame::validateOptions(const LifeGameOptions& options) const
+{
+    bool fieldHasRows = options.rowCount > 0;
+    if (fieldHasRows) {
+        bool fieldHasColumns = options.columnCount > 0;
+        if (!fieldHasColumns)
+            return false;
+    } else {
+        return false;
+    }
+    return true;
+}
+
+void LifeGame::initGame(const LifeGameOptions &options)
+{
+    bool optionsValid = validateOptions(options);
+    if (optionsValid) {
+        const auto rowCount = options.rowCount;
+        const auto columnCount = options.columnCount;
+
+
+        _playingField.resize(rowCount);
+        std::for_each(_playingField.begin(), _playingField.end(), [&](auto &row) {
+            row.resize(columnCount);
+        });
+
+        for (auto rowIndex = 0; rowIndex < rowCount; ++rowIndex) {
+            for (auto columnIndex = 0; columnIndex < columnCount; ++columnIndex) {
+
+                // TODO Put in options
+                static const auto rectWidth = 50;
+                static const auto rectHeight = 50;
+
+                const auto x = columnIndex * rectWidth;
+                const auto y = rowIndex * rectHeight;
+                const QRectF rect(x, y, rectWidth, rectHeight);
+
+                auto * graphicsItem = new LifeGameGraphicsRect(rect, StateHolder::Disable);
+                addItem(graphicsItem);
+                _playingField.at(rowIndex).at(columnIndex) = graphicsItem;
+            }
+        }
+    } else {
+        // TODO Handler error
+    }
+}
+
+void LifeGame::initTimer()
+{
+    _gameTimer = new QTimer;
+    static const auto defaultUpdateInterval = 100;
+    _gameTimer->setInterval(defaultUpdateInterval);
+
+    connect(_gameTimer, &QTimer::timeout, this, [this]() {
+        updateState();
+    });
 }

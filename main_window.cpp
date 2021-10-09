@@ -16,7 +16,11 @@ MainWindow::MainWindow(QMainWindow * parent) : QMainWindow(parent), _game(nullpt
 void MainWindow::initUI()
 {
     try {
-        _game = new LifeGame(this);
+        LifeGameOptions options;
+        options.rowCount = 10;
+        options.columnCount = 10;
+
+        _game = new LifeGame(options, this);
         _view = new QGraphicsView(_game);
         _inputsWidget = new InputsWidget(this);
     } catch (std::bad_alloc& ) {

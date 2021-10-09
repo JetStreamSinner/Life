@@ -8,8 +8,8 @@ find_package(Qt6Widgets CONFIG REQUIRED)
 
 set(src main.cpp
         main_window.cpp
-        game_state.cpp
-        life_cell.cpp
+        game_state_updater.cpp
+        binary_state.cpp
         life_game.cpp
         life_game_graphics_rect.cpp inputs_widget.cpp inputs_widget.h)
 
