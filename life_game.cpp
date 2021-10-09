@@ -3,10 +3,28 @@
 
 #include <QTimer>
 
-LifeGame::LifeGame(const LifeGameOptions &options, QObject* parent) : QGraphicsScene(parent), _gameTimer(nullptr), _updater(std::make_unique<LifeGameStateUpdater>())
+LifeGame::LifeGame(QObject * parent) : QGraphicsScene(parent), _gameTimer(nullptr), _updater(std::make_unique<LifeGameStateUpdater>())
+{
+    initTimer();
+
+    static LifeGameOptions defaultOptions;
+    defaultOptions.rowCount = 10;
+    defaultOptions.columnCount = 10;
+    initGame(defaultOptions);
+
+}
+
+LifeGame::LifeGame(const LifeGameOptions &options, QObject* parent) : LifeGame(parent)
 {
     initGame(options);
-    initTimer();
+}
+
+void LifeGame::setOptions(const LifeGameOptions& options)
+{
+    stop();
+    resetGame();
+
+    initGame(options);
 }
 
 void LifeGame::start()
@@ -58,6 +76,15 @@ bool LifeGame::validateOptions(const LifeGameOptions& options) const
     return true;
 }
 
+void LifeGame::resetGame()
+{
+    stop();
+    // Clear graphics scene
+    clear();
+    // Clear bit field
+    _playingField.clear();
+}
+
 void LifeGame::initGame(const LifeGameOptions &options)
 {
     bool optionsValid = validateOptions(options);
@@ -75,8 +102,8 @@ void LifeGame::initGame(const LifeGameOptions &options)
             for (auto columnIndex = 0; columnIndex < columnCount; ++columnIndex) {
 
                 // TODO Put in options
-                static const auto rectWidth = 50;
-                static const auto rectHeight = 50;
+                static const auto rectWidth = 10;
+                static const auto rectHeight = 10;
 
                 const auto x = columnIndex * rectWidth;
                 const auto y = rowIndex * rectHeight;

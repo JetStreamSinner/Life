@@ -2,6 +2,7 @@
 
 #include <QGraphicsView>
 #include <QHBoxLayout>
+#include <QSizePolicy>
 
 #include "life_game.h"
 #include "inputs_widget.h"
@@ -16,13 +17,12 @@ MainWindow::MainWindow(QMainWindow * parent) : QMainWindow(parent), _game(nullpt
 void MainWindow::initUI()
 {
     try {
-        LifeGameOptions options;
-        options.rowCount = 10;
-        options.columnCount = 10;
-
-        _game = new LifeGame(options, this);
+        _game = new LifeGame(this);
         _view = new QGraphicsView(_game);
+        _view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
         _inputsWidget = new InputsWidget(this);
+        _inputsWidget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     } catch (std::bad_alloc& ) {
         std::terminate();
     }
@@ -38,4 +38,5 @@ void MainWindow::initUI()
 
     connect(_inputsWidget, &InputsWidget::startGame, this, [&](){ _game->start(); });
     connect(_inputsWidget, &InputsWidget::stopGame, this, [&](){ _game->stop(); });
+    connect(_inputsWidget, &InputsWidget::settingsChanged, this, [&](){ _game->setOptions(_inputsWidget->options()); });
 }

@@ -17,7 +17,10 @@ class LifeGame : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit LifeGame(const LifeGameOptions &options, QObject * parent=nullptr);
+    explicit LifeGame(QObject * parent=nullptr);
+    explicit LifeGame(const LifeGameOptions &options=LifeGameOptions(), QObject * parent=nullptr);
+
+    void setOptions(const LifeGameOptions &options);
     void start();
     void stop();
 
@@ -30,6 +33,7 @@ private:
 
     bool validateOptions(const LifeGameOptions &options) const;
 
+    void resetGame();
     void initGame(const LifeGameOptions &options);
     void initTimer();
 
