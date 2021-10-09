@@ -1,21 +1,19 @@
 #pragma once
 
-#include <vector>
-#include <memory>
 #include "../binary_state.h"
+#include <memory>
+#include <vector>
 
 using BinaryField = std::vector<std::vector<BinaryState*>>;
 
-struct StateDiff
-{
+struct StateDiff {
     BinaryState previous;
     BinaryState updated;
     int rowIndex;
     int columnIndex;
 };
 
-class IGameStateUpdater
-{
+class IGameStateUpdater {
 public:
-    virtual std::vector<StateDiff> updateState(const BinaryField &playingField) = 0;
+    virtual std::vector<StateDiff> updateState(const BinaryField& playingField) = 0;
 };

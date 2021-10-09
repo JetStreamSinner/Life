@@ -1,13 +1,13 @@
-#include <QPainter>
-#include <QDebug>
 #include "life_game_graphics_rect.h"
+#include <QPainter>
 
-LifeGameGraphicsRect::LifeGameGraphicsRect(const QRectF &cellRect, StateHolder initState) : QGraphicsRectItem(cellRect), BinaryState(initState)
+LifeGameGraphicsRect::LifeGameGraphicsRect(const QRectF& cellRect, StateHolder initState)
+    : QGraphicsRectItem(cellRect)
+    , BinaryState(initState)
 {
-
 }
 
-void LifeGameGraphicsRect::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget * widget)
+void LifeGameGraphicsRect::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     QGraphicsRectItem::paint(painter, option, widget);
     const auto brushColor = state() == StateHolder::Enable ? defaultActiveCellColor : defaultInactiveCellColor;

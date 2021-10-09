@@ -3,7 +3,10 @@
 
 #include <QTimer>
 
-LifeGame::LifeGame(QObject * parent) : QGraphicsScene(parent), _gameTimer(nullptr), _updater(std::make_unique<LifeGameStateUpdater>())
+LifeGame::LifeGame(QObject* parent)
+    : QGraphicsScene(parent)
+    , _gameTimer(nullptr)
+    , _updater(std::make_unique<LifeGameStateUpdater>())
 {
     initTimer();
 
@@ -11,10 +14,10 @@ LifeGame::LifeGame(QObject * parent) : QGraphicsScene(parent), _gameTimer(nullpt
     defaultOptions.rowCount = 10;
     defaultOptions.columnCount = 10;
     initGame(defaultOptions);
-
 }
 
-LifeGame::LifeGame(const LifeGameOptions &options, QObject* parent) : LifeGame(parent)
+LifeGame::LifeGame(const LifeGameOptions& options, QObject* parent)
+    : LifeGame(parent)
 {
     initGame(options);
 }
@@ -34,7 +37,6 @@ void LifeGame::start()
     else
         // TODO Handler error
         std::terminate();
-    
 }
 
 void LifeGame::stop()
@@ -50,7 +52,7 @@ void LifeGame::updateState()
 {
     if (_updater) {
         auto diffs = _updater->updateState(_playingField);
-        for (auto &diff : diffs) {
+        for (auto& diff : diffs) {
             const auto targetState = _playingField.at(diff.rowIndex).at(diff.columnIndex);
             if (diff.updated.state() == StateHolder::Enable)
                 targetState->enable();
@@ -85,16 +87,15 @@ void LifeGame::resetGame()
     _playingField.clear();
 }
 
-void LifeGame::initGame(const LifeGameOptions &options)
+void LifeGame::initGame(const LifeGameOptions& options)
 {
     bool optionsValid = validateOptions(options);
     if (optionsValid) {
         const auto rowCount = options.rowCount;
         const auto columnCount = options.columnCount;
 
-
         _playingField.resize(rowCount);
-        std::for_each(_playingField.begin(), _playingField.end(), [&](auto &row) {
+        std::for_each(_playingField.begin(), _playingField.end(), [&](auto& row) {
             row.resize(columnCount);
         });
 
@@ -109,7 +110,7 @@ void LifeGame::initGame(const LifeGameOptions &options)
                 const auto y = rowIndex * rectHeight;
                 const QRectF rect(x, y, rectWidth, rectHeight);
 
-                auto * graphicsItem = new LifeGameGraphicsRect(rect, StateHolder::Disable);
+                auto* graphicsItem = new LifeGameGraphicsRect(rect, StateHolder::Disable);
                 addItem(graphicsItem);
                 _playingField.at(rowIndex).at(columnIndex) = graphicsItem;
             }

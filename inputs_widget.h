@@ -1,16 +1,15 @@
 #pragma once
 
-#include <QWidget>
 #include <QLineEdit>
+#include <QWidget>
 
 class QPushButton;
 class LifeGameOptions;
 
-class InputsWidget : public QWidget
-{
+class InputsWidget : public QWidget {
     Q_OBJECT
 public:
-    explicit InputsWidget(QWidget * parent=nullptr);
+    explicit InputsWidget(QWidget* parent = nullptr);
 
     LifeGameOptions options() const;
 signals:
@@ -21,12 +20,12 @@ signals:
 private:
     void initUI();
 
-    QPushButton * _startGameButton;
-    QPushButton * _stopGameButton;
+    QPushButton* _startGameButton;
+    QPushButton* _stopGameButton;
 
     int _rowCount = 0;
     int _columnCount = 0;
 
-    QLineEdit * _rowCountInput;
-    QLineEdit * _columnCountInput;
+    QLineEdit* _rowCountInput;
+    QLineEdit* _columnCountInput;
 };

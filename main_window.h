@@ -6,15 +6,15 @@ class LifeGame;
 class QGraphicsView;
 class InputsWidget;
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
-    explicit MainWindow(QMainWindow * parent = nullptr);
+    explicit MainWindow(QMainWindow* parent = nullptr);
+
 private:
     void initUI();
 
-    InputsWidget * _inputsWidget;
-    QGraphicsView * _view;
-    LifeGame * _game;
+    InputsWidget* _inputsWidget;
+    QGraphicsView* _view;
+    LifeGame* _game;
 };

@@ -1,9 +1,5 @@
 #include "game_state_updater.h"
 #include <algorithm>
-#include <stdexcept>
-#include <QDebug>
-
-
 
 bool LifeGameStateUpdater::cellExist(int rowIndex, int columnIndex, int rowCount, int columnCount) const
 {
@@ -12,7 +8,7 @@ bool LifeGameStateUpdater::cellExist(int rowIndex, int columnIndex, int rowCount
     return rowIndexValid && columnIndexValid;
 }
 
-int LifeGameStateUpdater::aliveNeighborsCount(const BinaryField &playingField, int targetRowIndex, int targetColumnIndex) const
+int LifeGameStateUpdater::aliveNeighborsCount(const BinaryField& playingField, int targetRowIndex, int targetColumnIndex) const
 {
     const auto rowCount = playingField.size();
     const auto columnCount = playingField.at(0).size();
@@ -43,12 +39,10 @@ int LifeGameStateUpdater::aliveNeighborsCount(const BinaryField &playingField, i
     for (auto index = bottomBound - 1; index > topBound; --index)
         if (cellExist(index, leftBound, rowCount, columnCount))
             neighborsCounter += playingField.at(index).at(leftBound)->state() == StateHolder::Enable;
-
-    qDebug() << targetRowIndex << targetColumnIndex << neighborsCounter;
     return neighborsCounter;
 }
 
-std::vector<StateDiff> LifeGameStateUpdater::updateState(const BinaryField & playingField)
+std::vector<StateDiff> LifeGameStateUpdater::updateState(const BinaryField& playingField)
 {
     static const auto lowBoundAliveCondition = 2;
     static const auto upperBoundAliveCondition = 3;
@@ -86,7 +80,6 @@ std::vector<StateDiff> LifeGameStateUpdater::updateState(const BinaryField & pla
                 diff.columnIndex = columnIndex;
                 stateDiffs.push_back(diff);
             }
-
         }
     }
 

@@ -2,13 +2,14 @@
 
 #include <QGraphicsView>
 #include <QHBoxLayout>
-#include <QSizePolicy>
 
-#include "life_game.h"
 #include "inputs_widget.h"
+#include "life_game.h"
 
-MainWindow::MainWindow(QMainWindow * parent) : QMainWindow(parent), _game(nullptr),
-    _view(nullptr)
+MainWindow::MainWindow(QMainWindow* parent)
+    : QMainWindow(parent)
+    , _game(nullptr)
+    , _view(nullptr)
 {
     resize(800, 600);
     initUI();
@@ -23,20 +24,20 @@ void MainWindow::initUI()
 
         _inputsWidget = new InputsWidget(this);
         _inputsWidget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    } catch (std::bad_alloc& ) {
+    } catch (std::bad_alloc&) {
         std::terminate();
     }
 
-    auto * compositorLayout = new QHBoxLayout;
+    auto* compositorLayout = new QHBoxLayout;
     compositorLayout->addWidget(_view);
     compositorLayout->addWidget(_inputsWidget);
 
-    auto * compositor = new QWidget(this);
+    auto* compositor = new QWidget(this);
     compositor->setLayout(compositorLayout);
 
     setCentralWidget(compositor);
 
-    connect(_inputsWidget, &InputsWidget::startGame, this, [&](){ _game->start(); });
-    connect(_inputsWidget, &InputsWidget::stopGame, this, [&](){ _game->stop(); });
-    connect(_inputsWidget, &InputsWidget::settingsChanged, this, [&](){ _game->setOptions(_inputsWidget->options()); });
+    connect(_inputsWidget, &InputsWidget::startGame, this, [&]() { _game->start(); });
+    connect(_inputsWidget, &InputsWidget::stopGame, this, [&]() { _game->stop(); });
+    connect(_inputsWidget, &InputsWidget::settingsChanged, this, [&]() { _game->setOptions(_inputsWidget->options()); });
 }

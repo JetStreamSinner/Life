@@ -5,12 +5,11 @@
 #include <QMouseEvent>
 
 class LifeGameGraphicsRect : public QGraphicsRectItem,
-                             public BinaryState
-{
+                             public BinaryState {
 public:
-    explicit LifeGameGraphicsRect(const QRectF &cellRect, StateHolder initState);
-    void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget) override;
-    void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
+    explicit LifeGameGraphicsRect(const QRectF& cellRect, StateHolder initState);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 
 private:
     // TODO Move this in configuration/options
