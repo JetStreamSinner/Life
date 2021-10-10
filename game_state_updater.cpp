@@ -44,8 +44,6 @@ int LifeGameStateUpdater::aliveNeighborsCount(const BinaryField& playingField, i
 
 std::vector<StateDiff> LifeGameStateUpdater::updateState(const BinaryField& playingField)
 {
-    static const auto lowBoundAliveCondition = 2;
-    static const auto upperBoundAliveCondition = 3;
 
     const auto rowCount = playingField.size();
     const auto columnCount = playingField.at(0).size();
@@ -57,18 +55,16 @@ std::vector<StateDiff> LifeGameStateUpdater::updateState(const BinaryField& play
 
             const auto previousState = *playingField.at(rowIndex).at(columnIndex);
             const auto updatedState = [neighborsCount, previousState]() {
-                if (previousState.state() == StateHolder::Enable) {
-                    if (neighborsCount >= lowBoundAliveCondition && neighborsCount <= upperBoundAliveCondition) {
-                        return BinaryState(StateHolder::Enable);
-                    } else {
-                        return BinaryState(StateHolder::Disable);
-                    }
+                const auto currentCellAlive = previousState.state() == StateHolder::Enable;
+                static const auto lowBoundAliveCondition = 2;
+                static const auto upperBoundAliveCondition = 3;
+
+                if (currentCellAlive) {
+                    const auto liveContinue = neighborsCount >= lowBoundAliveCondition && neighborsCount <= upperBoundAliveCondition;
+                    return BinaryState(liveContinue ? StateHolder::Enable : StateHolder::Disable);
                 } else {
-                    if (neighborsCount == upperBoundAliveCondition) {
-                        return BinaryState(StateHolder::Enable);
-                    } else {
-                        return BinaryState(StateHolder::Disable);
-                    };
+                    const auto liveGenerate = neighborsCount == upperBoundAliveCondition;
+                    return BinaryState(liveGenerate ? StateHolder::Enable : StateHolder::Disable);
                 }
             }();
 
